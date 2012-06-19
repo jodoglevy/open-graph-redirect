@@ -12,7 +12,8 @@ function replaceOpenGraphTags() {
         
         if(redirectURI) {
             $(element).attr("href",redirectURI);
-            $(element).removeAttr("rel");        
+            $(element).removeAttr("rel");
+            $(element).attr("target","_blank");        
         }
     });
 }
