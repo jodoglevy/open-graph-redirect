@@ -9,7 +9,11 @@ $(function() {
 function replaceOpenGraphTags() {
     $('a[href*="connect/uiserver.php"]').each(function(index, element) {
         var redirectURI = getURLParameterByName($(element).attr('href'),"redirect_uri");
-        if(redirectURI) $(element).attr("href",redirectURI);
+        
+        if(redirectURI) {
+            $(element).attr("href",redirectURI);
+            $(element).removeAttr("rel");        
+        }
     });
 }
 
