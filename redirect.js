@@ -1,4 +1,4 @@
-chrome.extension.sendRequest({setIconPath: "icon-color.png"}, function(){});
+chrome.extension.sendRequest({setIconPath: "icon.png"}, function(){});
 
 $(function() {
     replaceOpenGraphTags();
