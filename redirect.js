@@ -2,12 +2,14 @@ chrome.extension.sendRequest({setIconPath: "icon-color.png"}, function(){});
 
 $(function() {
     replaceOpenGraphTags();
+
+    $(document).bind("DOMSubtreeModified",replaceOpenGraphTags);
 });
 
 function replaceOpenGraphTags() {
     $('a[href*="connect/uiserver.php"]').each(function(index, element) {
         var redirectURI = getURLParameterByName($(element).attr('href'),"redirect_uri");
-        $(element).attr("href",redirectURI);
+        if(redirectURI) $(element).attr("href",redirectURI);
     });
 }
 
@@ -18,6 +20,6 @@ function getURLParameterByName(url, name) {
   var regex = new RegExp( regexS );
   var results = regex.exec(url);
 
-  if(results == null) return "";
+  if(results == null) return null;
   else return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
