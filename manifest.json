@@ -1,6 +1,6 @@
 {
     "name":"Facebook Open Graph Redirect",
-    "version":"0.1",
+    "version":"1.0",
     "description":"Chrome plugin that lets you view all those Facebook Open Graph shares in your news feed without installing their corresponding apps",
     "background_page": "background.html",
     "content_scripts":[{
