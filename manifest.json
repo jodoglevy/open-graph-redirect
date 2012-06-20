@@ -5,7 +5,8 @@
     "background_page": "background.html",
     "content_scripts":[{
         "matches":[
-            "http://www.facebook.com/*"
+            "http://www.facebook.com/*",
+            "https://www.facebook.com/*"
         ],
         "css": [],
         "js": ["jquery.min.js", "redirect.js"]
