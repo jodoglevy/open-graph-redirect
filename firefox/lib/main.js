@@ -7,6 +7,6 @@ exports.main = function() {
     pageMod.PageMod({ 
     include: ["https://www.facebook.com/*","http://www.facebook.com/*"],
     contentScriptWhen: 'ready',
-    contentScriptFile: [data.url("jquery.js"),data.url("redirect.js")]
+    contentScriptFile: [data.url("redirect.js")]
     });
 }
