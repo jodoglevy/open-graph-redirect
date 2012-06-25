@@ -23,19 +23,27 @@ function replaceOpenGraphTags() {
             links[i].setAttribute('target', '_blank');
         }
 	}
+}
 
+function checkForOpenGraphOAuth() {
+    if(document.URL.indexOf("dialog/oauth") !== -1) {
+        var redirectURI = getURLParameterByName( document.URL, "redirect_uri");
+        var scope = getURLParameterByName( document.URL, "scope");
+
+        if(redirectURI && scope && scope.indexOf("publish_actions") !== -1) {        
+            window.location = redirectURI;
+        }
+    }
 }
 
 
+checkForOpenGraphOAuth();
+
 chrome.extension.sendRequest({setIconPath: "icon.png"}, function () {});
 
-
-
 document.addEventListener('DOMContentLoaded', function (evt) {
+    replaceOpenGraphTags();
 
-	replaceOpenGraphTags();
 	document.addEventListener('DOMSubtreeModified', replaceOpenGraphTags, false);
-
-
 
 }, false);
