@@ -1,11 +1,15 @@
 {
     "name":"Facebook Open Graph Redirect",
     "version":"1.2",
-    "description":"Chrome extension that lets you view all those Facebook Open Graph shares in your news feed without installing their corresponding apps",
-    "manifest_version" : 2,
+    "description":"Chrome extension that lets you view all those Facebook Open Graph shares in your news feed without installing their corresponding apps.",
+    "manifest_version": 2,
+    "incognito": "spanning",
     "background": {
         "page": "background.html"
     },
+   "icons": { "16": "icon16.png",
+           "48": "icon48.png",
+          "128": "icon.png" },
     "content_scripts":[{
         "matches":[
             "http://www.facebook.com/*",
