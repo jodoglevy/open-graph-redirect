@@ -26,6 +26,19 @@ function replaceOpenGraphTags() {
 
 }
 
+function checkForOpenGraphOAuth() {
+    if(document.URL.indexOf("dialog/oauth") !== -1) {
+        var redirectURI = getURLParameterByName( document.URL, "redirect_uri");
+        var scope = getURLParameterByName( document.URL, "scope");
+
+        if(redirectURI && scope && scope.indexOf("publish_actions") !== -1) {        
+            window.location = redirectURI;
+        }
+    }
+}
+
+
+checkForOpenGraphOAuth();
 
 document.addEventListener('DOMContentLoaded', function (evt) {
 
