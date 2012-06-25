@@ -1,0 +1,10 @@
+{
+  "name": "opengraph",
+  "fullName": "Facebook Opengraph Redirect",
+  "description": "This addon lets you view all the Facebook Open Graph shares in your news feed without installing their corresponding apps.",
+  "author": "Florian Bersier (http://florianbersier.com)",
+  "contributors": "Joe Levy",
+  "license": "MPL 1.1/GPL 2.0/LGPL 2.1",
+  "id": "opengraph@florian.bersier",
+  "version": "1.0"
+}
