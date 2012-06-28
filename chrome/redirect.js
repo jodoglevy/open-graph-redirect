@@ -39,11 +39,9 @@ function checkForOpenGraphOAuth() {
 
 checkForOpenGraphOAuth();
 
-chrome.extension.sendRequest({setIconPath: "icon.png"}, function () {});
-
 document.addEventListener('DOMContentLoaded', function (evt) {
     replaceOpenGraphTags();
 
-	document.addEventListener('DOMSubtreeModified', replaceOpenGraphTags, false);
+    document.addEventListener('DOMSubtreeModified', replaceOpenGraphTags, false);
 
 }, false);
