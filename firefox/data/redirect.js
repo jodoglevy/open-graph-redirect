@@ -8,22 +8,72 @@ function getURLParameterByName(url, name) {
   else return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+function addURLParam(url, key, value) {
+    key = escape(key);
+    value = escape(value);
+    
+    var re = new RegExp("([?|&])" + key + "=.*?(&|$)", "i"),
+        separator = url.indexOf('?') !== -1 ? "&" : "?";
+
+    if (url.match(re)) return url.replace(re, '$1' + key + "=" + value + '$2');
+    else return url + separator + key + "=" + value;
+}
+
+function getInnerMostText(node) {
+    if (node.nodeType == 3) {
+        // Filter out text nodes that contain only whitespace
+        if (!/^\s*$/.test(node.data)) {
+            return node.data;
+        }
+    } else if (node.hasChildNodes()) {
+        for (var i = 0, len = node.childNodes.length; i < len; ++i) {
+            var text = getInnerMostText(node.childNodes[i]);
+            if(text != null) return text;
+        }
+        return null;
+    }
+    else return null;
+}
+
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
 
 function replaceOpenGraphTags() {
-	var links, numLinks, i, redirectURI;
-
-	links = document.querySelectorAll('a[href*="connect/uiserver.php"]');
-	numLinks = links.length;
-
-	for (i = 0; i < numLinks; i++) {
-		redirectURI = getURLParameterByName( links[i].getAttribute('href'), "redirect_uri");
-		if (redirectURI) {
+	var links = document.querySelectorAll('a[href*="connect/uiserver.php"]');
+	
+    for (var i = 0; i < links.length; i++) {
+		var redirectURI = getURLParameterByName( links[i].getAttribute('href'), "redirect_uri");
+		
+        if (redirectURI) {
             links[i].setAttribute('href', redirectURI);
             links[i].removeAttribute('rel');
             links[i].setAttribute('target', '_blank');
         }
 	}
+}
 
+function addStoryTitlesToFBAppURLs() {
+    var urlsToTitles = {};
+    var links = document.querySelectorAll('a[href*="apps.facebook.com"]');
+
+    for (var i = 0; i < links.length; i++) {
+        var title = getInnerMostText(links[i]);
+        if(title && title.length > 2) {
+            if(endsWith(title,"...")) title = title.substring(0, title.lastIndexOf("..."));
+            urlsToTitles[links[i].getAttribute('href')] = title;
+        }
+    }
+
+    for (var i = 0; i < links.length; i++) {
+        var url = links[i].getAttribute('href');
+        var title = urlsToTitles[url];
+
+        if(title) {
+            links[i].setAttribute('href', addURLParam(url,"redirectTitle",title));
+            links[i].setAttribute('target', '_blank');
+        }
+    }
 }
 
 function checkForOpenGraphOAuth() {
@@ -32,7 +82,11 @@ function checkForOpenGraphOAuth() {
         var scope = getURLParameterByName( document.URL, "scope");
 
         if(redirectURI && scope && scope.indexOf("publish_actions") !== -1) {        
-            window.location = redirectURI;
+            if(redirectURI.indexOf("apps.facebook.com") === -1) window.location = redirectURI;
+            else {
+                var redirectTitle = getURLParameterByName(redirectURI, "redirectTitle");
+                if(redirectTitle) window.location = "https://www.google.com/search?btnI&q=" + redirectTitle;
+            }
         }
     }
 }
@@ -41,10 +95,10 @@ function checkForOpenGraphOAuth() {
 checkForOpenGraphOAuth();
 
 document.addEventListener('DOMContentLoaded', function (evt) {
+    replaceOpenGraphTags();
+    addStoryTitlesToFBAppURLs();
 
-	replaceOpenGraphTags();
-	document.addEventListener('DOMSubtreeModified', replaceOpenGraphTags, false);
+    document.addEventListener('DOMSubtreeModified', replaceOpenGraphTags, false);
+    document.addEventListener('DOMSubtreeModified', addStoryTitlesToFBAppURLs, false);
 
 }, false);
-
-
