@@ -85,7 +85,7 @@ function checkForOpenGraphOAuth() {
             if(redirectURI.indexOf("apps.facebook.com") === -1) window.location = redirectURI;
             else {
                 var redirectTitle = getURLParameterByName(redirectURI, "redirectTitle");
-                if(redirectTitle) window.location = "https://www.google.com/search?btnI&q=" + redirectTitle;
+                if(redirectTitle) window.location = "https://www.google.com/search?btnI&q=" + unescape(redirectTitle);
             }
         }
     }

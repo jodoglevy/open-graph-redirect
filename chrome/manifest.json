@@ -1,6 +1,6 @@
 {
     "name":"Facebook Open Graph Redirect",
-    "version":"1.5",
+    "version":"1.6",
     "description":"View all those Facebook Open Graph shares in your news feed without installing their corresponding apps.",
     "manifest_version": 2,
     "incognito": "spanning",
