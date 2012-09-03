@@ -77,7 +77,10 @@ function addStoryTitlesToFBAppURLs() {
 }
 
 function checkForOpenGraphOAuth() {
-    var isLooping = localStorage.getItem("lastFBPageAccessed") == document.URL;  
+    var lastFBPageAccessedString = "lastFBPageAccessed";
+
+    var isLooping = localStorage.getItem(lastFBPageAccessedString) == document.URL;  
+    localStorage.setItem(lastFBPageAccessedString, document.URL);  
 
     if(document.URL.indexOf("dialog/oauth") !== -1 || document.URL.indexOf("connect/uiserver") !== -1) {
         var redirectURI = getURLParameterByName( document.URL, "redirect_uri");
@@ -89,8 +92,6 @@ function checkForOpenGraphOAuth() {
             else if(redirectTitle) window.location = "https://www.google.com/search?btnI&q=" + unescape(redirectTitle);
         }
     }
-
-    localStorage.setItem("lastFBPageAccessed", document.URL);  
 }
 
 
